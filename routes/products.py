@@ -37,6 +37,37 @@ def Product():
             return jsonify({u"message": u"Add product sucessfully"})
         except:
             return jsonify({u"message": u"error"})
+    elif request.method == 'PUT':
+        reqBody = request.json
+        id = request.args.get('id')
+
+        try:
+            querySnapshot = db.collection(
+                u'products').document('{}'.format(id)).get()
+            if querySnapshot.exists == False:
+                return jsonify({u"message": "no document that contain id {}".format(id)})
+            else:
+                doc = querySnapshot.to_dict()
+                typeProduct = reqBody.get('type') or doc['type']
+                name = reqBody.get('name') or doc['name']
+                in_stock = reqBody.get('in_stock') or doc['in_stock']
+                description = reqBody.get('description') or doc['description']
+                img = reqBody.get('img') or doc['image_url']
+
+                updateData = {
+                    u'name': name,
+                    u'type': typeProduct,
+                    u'in_stock': int(in_stock),
+                    u'description': description,
+                    u'image_url': img,
+                    u'updated_at': datetime.datetime.now(),
+                    u'created_at': doc['created_at']
+                }
+
+                db.collection(u'products').document(id).set(updateData)
+                return jsonify({u'messsage': 'update product id {} is sucessfully'.format(id)})
+        except Exception as e:
+            return jsonify({u"error": '{}'.format(e)})
 
 
 @product.route('/products/', methods=['GET'])
@@ -63,7 +94,7 @@ def Products():
         docs = next_query.get()
 
         for doc in docs:
-            responseData.append(doc.to_dict())
+            responseData.append({u"id": doc.id, **doc.to_dict()})
 
         return jsonify({"data": responseData})
     except:

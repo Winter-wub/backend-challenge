@@ -1,6 +1,6 @@
 from flask import request, Blueprint, jsonify
 from utils.firebase import db
-from managers.products import getProductbyId
+from managers.products import getProductbyId, addProduct
 import datetime
 
 product = Blueprint('products', __name__)
@@ -11,7 +11,6 @@ def Product():
     if request.method == 'GET':
         id = request.args.get('id')
         doc = getProductbyId(id)
-        print(doc)
         if doc is None:
             return jsonify({"data": [], "messsage": "no data"})
         else:
@@ -23,19 +22,10 @@ def Product():
         in_stock = data['in_stock']
         description = data['description']
         img = data['img']
-        try:
-            db.collection(u'products').add({
-                u'name': name,
-                u'type': typeProduct,
-                u'in_stock': int(in_stock),
-                u'description': description,
-                u'image_url': img,
-                u'created_at': datetime.datetime.now()
-
-            })
+        if addProduct(typeProduct, name, int(in_stock), img, description) is True:
             return jsonify({u"message": u"Add product sucessfully"})
-        except:
-            return jsonify({u"message": u"error"})
+        else:
+            return 500
     elif request.method == 'PUT':
         reqBody = request.json
         id = request.args.get('id')

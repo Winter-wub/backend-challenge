@@ -11,7 +11,6 @@ autopep8 = "*"
 flask = "*"
 google-cloud-firestore = "*"
 firebase-admin = "*"
-py-bcrypt = "*"
 bcrypt = "*"
 
 [requires]

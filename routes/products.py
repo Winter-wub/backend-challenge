@@ -66,7 +66,7 @@ def Products():
     page = int(request.args.get('page'))
     limit = int(request.args.get('limit'))
 
-    print('[POST] /products/  type:{type} page:{page} limit:{limit}'.format(
+    print('[GET] /products/  type:{type} page:{page} limit:{limit}'.format(
         type=typeProduct, page=page, limit=limit))
     try:
         first_query = ref_products.order_by(u'created_at').limit(limit)

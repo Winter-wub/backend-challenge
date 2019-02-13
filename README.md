@@ -1,1 +1,6 @@
-# backend-challenge
+# Backend-challenge
+
+## REST API
+
+/products : <br />
+GET :

@@ -1,5 +1,6 @@
 from flask import request, Blueprint, jsonify
 from utils.firebase import db
+from managers.products import getProductbyId
 import datetime
 
 product = Blueprint('products', __name__)
@@ -9,14 +10,12 @@ product = Blueprint('products', __name__)
 def Product():
     if request.method == 'GET':
         id = request.args.get('id')
-        doc = db.collection(u'products').document('{}'.format(id)).get()
-        try:
-            if doc.exists == False:
-                return jsonify({"data": [], "messsage": "no data"})
-            else:
-                return jsonify({"data": doc.to_dict()})
-        except:
-            return jsonify({"data": [], "messsage": "error"})
+        doc = getProductbyId(id)
+        print(doc)
+        if doc is None:
+            return jsonify({"data": [], "messsage": "no data"})
+        else:
+            return jsonify({"data": doc})
     elif request.method == 'POST':
         data = request.json
         typeProduct = data['type']

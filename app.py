@@ -9,6 +9,4 @@ app = Flask(__name__)
 app.register_blueprint(product)
 app.register_blueprint(order)
 app.register_blueprint(customers)
-
-if(__name__ == 'main'):
-    app.run(debug=True)
+app.run()

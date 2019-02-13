@@ -12,6 +12,7 @@ flask = "*"
 google-cloud-firestore = "*"
 firebase-admin = "*"
 bcrypt = "*"
+wheel = "*"
 
 [requires]
 python_version = "3.7"

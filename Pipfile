@@ -11,8 +11,8 @@ autopep8 = "*"
 flask = "*"
 google-cloud-firestore = "*"
 firebase-admin = "*"
-bcrypt = "*"
 wheel = "*"
+bcrypt = "*"
 
 [requires]
 python_version = "3.7"

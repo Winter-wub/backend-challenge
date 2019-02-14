@@ -3,11 +3,13 @@
 ## Requirement 🐱
 
 - pipenv
+- docker & docker-compose
 
 ## Command 🐱‍🏍
 
-- Install dependencies `pipenv sync`
-- Development Server `pipenv run flask run`
+- 🏗 Install dependencies `pipenv sync`
+- 🐍 Development Server `pipenv run flask run`
+- 🐳 Production (Docker, docker-compose) `docker-compose up --build -d` \*\*Note: Production require cert.json for firestore service
 
 ## Route map 🚞
 

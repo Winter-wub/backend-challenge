@@ -6,7 +6,7 @@ services:
     network_mode: bridge
     volumes:
       - .:/app
-      - ./utils/developer-challange-1bf4eca39862.json:/usr/local/credentials.json
+      - cert.json:/usr/local/credentials.json
     working_dir: /app
     ports:
       - 5000:5000

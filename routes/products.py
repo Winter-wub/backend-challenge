@@ -1,9 +1,11 @@
 from flask import request, Blueprint, jsonify
+from flask_cors import CORS
 from utils.firebase import db
 from managers.products import getProductbyId, addProduct
 import datetime
 
 product = Blueprint('products', __name__)
+CORS(product)
 
 
 @product.route('/product/', methods=['GET', 'POST', 'PUT'])

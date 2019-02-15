@@ -1,9 +1,11 @@
 from flask import request, Blueprint, jsonify
+from flask_cors import CORS
 from utils.firebase import db
 import bcrypt
 import datetime
 
 customers = Blueprint('customers', __name__)
+CORS(customers)
 
 
 @customers.route('/customers/', methods=['GET'])

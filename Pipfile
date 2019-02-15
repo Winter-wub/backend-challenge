@@ -13,6 +13,7 @@ google-cloud-firestore = "*"
 firebase-admin = "*"
 wheel = "*"
 bcrypt = "*"
+flask-cors = "*"
 
 [requires]
 python_version = "3.7"

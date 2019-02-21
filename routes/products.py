@@ -67,19 +67,29 @@ def Products():
     typeProduct = request.args.get('type')
     page = int(request.args.get('page'))
     limit = int(request.args.get('limit'))
-
-    print('[GET] /products/  type:{type} page:{page} limit:{limit}'.format(
-        type=typeProduct, page=page, limit=limit))
     try:
-        first_query = ref_products.order_by(u'created_at').limit(limit)
-        for i in range(page):
-            next_query = first_query
-            data = next_query.get()
-            last_doc = list(data)[-1]
-            last_pop = last_doc.to_dict()[u'created_at']
-            first_query = ref_products.order_by(u'created_at').start_after({
-                u'created_at': last_pop
-            }).limit(limit)
+        if typeProduct == 'all':
+            first_query = ref_products.order_by(u'created_at').limit(limit)
+            for i in range(page):
+                next_query = first_query
+                data = next_query.get()
+                last_doc = list(data)[-1]
+                last_pop = last_doc.to_dict()[u'created_at']
+                first_query = ref_products.order_by(u'created_at').start_after({
+                    u'created_at': last_pop
+                }).limit(limit)
+        else:
+            first_query = ref_products.where(
+                'type', '==', typeProduct).order_by(u'created_at').limit(limit)
+            for i in range(page):
+                next_query = first_query
+                data = next_query.get()
+                last_doc = list(data)[-1]
+                last_pop = last_doc.to_dict()[u'created_at']
+                first_query = ref_products.where(
+                    'type', '==', typeProduct).order_by(u'created_at').start_after({
+                        u'created_at': last_pop
+                    }).limit(limit)
 
         responseData = []
         docs = next_query.get()

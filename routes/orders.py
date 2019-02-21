@@ -30,18 +30,34 @@ def add_order():
     if request.method == 'POST':
         try:
             userId = request.json['user_id']
-            productId = request.json['product_id']
+            productIds = request.json['product_ids']
             value = request.json.get('value') or 1
+            productFailtoCreateOrder = []
+            productSuccesstoCreateOrder = []
+            for product in productIds:
+                querySnapshot = db.collection(
+                    u'products').document(product['id']).get()
 
-            db.collection(u'orders').add({
-                u'user_id': userId,
-                u'product_id': productId,
-                u'value': value,
-                u'created_at':  datetime.datetime.now(),
-                u'status': 'waiting'
-            })
+                if querySnapshot.exists is True:
+                    productData = querySnapshot.to_dict()
+                    if productData['in_stock'] < product['value']:
+                        productFailtoCreateOrder.append(product)
+                    else:
+                        productSuccesstoCreateOrder.append(product)
+                        db.collection(u'orders').add({
+                            u'user_id': userId,
+                            u'product_ids': productIds,
+                            u'value': value,
+                            u'created_at':  datetime.datetime.now(),
+                            u'status': 'waiting'
+                        })
+                else:
+                    productFailtoCreateOrder.append(product)
 
-            return jsonify({u'message': 'add order sucessfully'})
+            return jsonify({u'data': {
+                u'failed': productFailtoCreateOrder,
+                u'success': productSuccesstoCreateOrder
+            }})
 
         except Exception as e:
             return jsonify({u'error': e})

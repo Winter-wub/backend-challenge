@@ -110,7 +110,8 @@ def login():
                     u'username': currentUserData['username'],
                     u'name': currentUserData['name'],
                     u'role': currentUserData['role'],
-                    u'address': currentUserData['address']
+                    u'address': currentUserData['address'],
+                    u'uid': currentUserData['id']
                 }
             })
         else:

@@ -7,7 +7,7 @@ order = Blueprint('orders', __name__)
 CORS(order)
 
 
-@order.route('/orders/', methods=['GET'])
+@order.route('/orders', methods=['GET'])
 def orders():
     if request.method == 'GET':
         userId = request.args.get('id')
@@ -25,7 +25,7 @@ def orders():
         return 405
 
 
-@order.route('/order/', methods=['POST', 'PUT'])
+@order.route('/order', methods=['POST', 'PUT'])
 def add_order():
     if request.method == 'POST':
         try:

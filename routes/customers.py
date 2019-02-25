@@ -8,7 +8,7 @@ customers = Blueprint('customers', __name__)
 CORS(customers)
 
 
-@customers.route('/customers/', methods=['GET'])
+@customers.route('/customers', methods=['GET'])
 def getcustomers():
     if request.method == 'GET':
         role = request.args.get('role') or 'normal'
@@ -28,7 +28,7 @@ def getcustomers():
         return 405
 
 
-@customers.route('/customer/', methods=['POST', 'PUT'])
+@customers.route('/customer', methods=['POST', 'PUT'])
 def customer():
     if request.method == 'POST':
         try:
@@ -88,7 +88,7 @@ def customer():
         return 405
 
 
-@customers.route('/login/', methods=['POST'])
+@customers.route('/login', methods=['POST'])
 def login():
     try:
         username = request.json['username']

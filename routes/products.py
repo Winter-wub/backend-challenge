@@ -8,7 +8,7 @@ product = Blueprint('products', __name__)
 CORS(product)
 
 
-@product.route('/product/', methods=['GET', 'POST', 'PUT'])
+@product.route('/product', methods=['GET', 'POST', 'PUT'])
 def Product():
     if request.method == 'GET':
         id = request.args.get('id')
@@ -61,7 +61,7 @@ def Product():
             return jsonify({u"error": '{}'.format(e)})
 
 
-@product.route('/products/', methods=['GET'])
+@product.route('/products', methods=['GET'])
 def Products():
     ref_products = db.collection(u'products')
     typeProduct = request.args.get('type')

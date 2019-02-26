@@ -6,7 +6,7 @@ def getProductbyId(id):
     try:
         doc = db.collection(u'products').document(id).get()
         if doc.exists is True:
-            return doc.to_dict()
+            return {**doc.to_dict(), u'id': doc.id}
         else:
             return None
     except Exception as e:

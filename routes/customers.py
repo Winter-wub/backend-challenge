@@ -33,24 +33,35 @@ def customer():
     if request.method == 'POST':
         try:
             name = request.json['name']
+            email = request.json['email'] or ''
+            phone = request.json['phone'] or ''
             address = request.json.get('address') or ''
             username = request.json['username']
+            docRef = db.collection(u'customers').where(
+                u'username', '==', username).get()
+            isExist = []
+            for doc in docRef:
+                isExist.append(doc)
+            if len(isExist) > 0:
+                return jsonify({u'message': 'username already is used'}), 400
             password = bcrypt.hashpw(
                 request.json['password'].encode('utf-8'), bcrypt.gensalt())
 
-            db.collection(u'customers').add({
+            newUserRef = db.collection(u'customers').add({
                 u'username': username,
                 u'password': password,
                 u'address': address,
+                u'email': email,
+                u'phone': phone,
                 u'role': u'normal',
                 u'created_at':  datetime.datetime.now(),
                 u'name': name
             })
 
-            return jsonify({u'message': 'Add user successfully'})
+            return jsonify({u'message': 'Add user {} success'.format(newUserRef[1].id)})
 
         except Exception as e:
-            return jsonify({u'error': e})
+            return jsonify({u'error': e}), 500
     elif request.method == 'PUT':
         try:
             userId = request.json['id']

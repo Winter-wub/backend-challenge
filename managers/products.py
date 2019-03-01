@@ -14,17 +14,18 @@ def getProductbyId(id):
         return None
 
 
-def addProduct(typeProduct, name, in_stock, imgUrl, description):
+def addProduct(typeProduct, name, in_stock, imgUrl, description, price):
     try:
-        db.collection(u'products').add({
+        docRef = db.collection(u'products').add({
             u'name': name,
             u'type': typeProduct,
             u'in_stock': int(in_stock),
             u'description': description,
             u'image_url': imgUrl,
-            u'created_at': datetime.datetime.now()
+            u'created_at': datetime.datetime.now(),
+            u'price': price
         })
-        return True
+        return docRef[1].id
     except Exception as e:
         print(e)
         return False

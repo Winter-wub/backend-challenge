@@ -24,7 +24,8 @@ def Product():
         in_stock = data['in_stock']
         description = data['description']
         img = data['img']
-        if addProduct(typeProduct, name, int(in_stock), img, description) is True:
+        price = data['price']
+        if addProduct(typeProduct, name, int(in_stock), img, description, price):
             return jsonify({u"message": u"Add product sucessfully"})
         else:
             return 500

@@ -29,3 +29,12 @@ def addProduct(typeProduct, name, in_stock, imgUrl, description, price):
     except Exception as e:
         print(e)
         return False
+
+
+def updateProductbyId(id, updateData):
+    try:
+        db.collection(u'products').document(id).set(updateData)
+        return True
+    except Exception as e:
+        print(e)
+        return False

@@ -1,7 +1,7 @@
 from flask import request, Blueprint, jsonify
 from flask_cors import CORS
 from utils.firebase import db
-from managers.products import getProductbyId, addProduct
+from managers.products import getProductbyId, addProduct, updateProductbyId
 import datetime
 
 product = Blueprint('products', __name__)
@@ -34,17 +34,16 @@ def Product():
         id = request.args.get('id')
 
         try:
-            querySnapshot = db.collection(
-                u'products').document('{}'.format(id)).get()
-            if querySnapshot.exists == False:
+            productData = getProductbyId(id)
+            if productData is False:
                 return jsonify({u"message": "no document that contain id {}".format(id)})
             else:
-                doc = querySnapshot.to_dict()
-                typeProduct = reqBody.get('type') or doc['type']
-                name = reqBody.get('name') or doc['name']
-                in_stock = reqBody.get('in_stock') or doc['in_stock']
-                description = reqBody.get('description') or doc['description']
-                img = reqBody.get('img') or doc['image_url']
+                typeProduct = reqBody.get('type') or productData['type']
+                name = reqBody.get('name') or productData['name']
+                in_stock = reqBody.get('in_stock') or productData['in_stock']
+                description = reqBody.get(
+                    'description') or productData['description']
+                img = reqBody.get('img') or productData['image_url']
 
                 updateData = {
                     u'name': name,
@@ -53,11 +52,14 @@ def Product():
                     u'description': description,
                     u'image_url': img,
                     u'updated_at': datetime.datetime.now(),
-                    u'created_at': doc['created_at']
+                    u'created_at': productData['created_at']
                 }
 
-                db.collection(u'products').document(id).set(updateData)
-                return jsonify({u'messsage': 'update product id {} is sucessfully'.format(id)})
+                if updateProductbyId(id, updateData):
+                    return jsonify({u'message': u'update product id {} is sucessfully'.format(id)})
+                else:
+                    return jsonify({u'message': u'update product failed'})
+
         except Exception as e:
             return jsonify({u"error": '{}'.format(e)})
 

@@ -6,7 +6,6 @@ services:
     network_mode: bridge
     volumes:
       - .:/app
-      - cert.json:/usr/local/credentials.json
     working_dir: /app
     ports:
       - 5000:5000

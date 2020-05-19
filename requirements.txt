@@ -31,7 +31,7 @@ omise==0.8.1
 protobuf==3.6.1
 pyasn1==0.4.5
 pyasn1-modules==0.2.4
-pycodestyle==2.5.0
+pycodestyle==2.6.0
 pycparser==2.19
 pylint==2.2.2
 pytz==2018.9

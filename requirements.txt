@@ -1,5 +1,5 @@
 astroid==2.1.0
-autopep8==1.4.3
+autopep8==1.5.6
 bcrypt==3.1.6
 CacheControl==0.12.5
 cachetools==3.1.0

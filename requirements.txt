@@ -28,7 +28,7 @@ MarkupSafe==1.1.0
 mccabe==0.6.1
 msgpack==0.6.1
 omise==0.8.1
-protobuf==3.6.1
+protobuf==3.18.3
 pyasn1==0.4.5
 pyasn1-modules==0.2.4
 pycodestyle==2.5.0
